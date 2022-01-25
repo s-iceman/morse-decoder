@@ -37,8 +37,37 @@ const MORSE_TABLE = {
     '-----':  '0',
 };
 
+
+const BLOCK_LEN = 10;
+const SUBBLOCK_LEN = 2;
+const SPACE = '*';
+
+const ELEMENTS = {
+    '00': '',
+    '10': '.',
+    '11': '-',
+};
+
+
+function decodySymbol(encodedSymbol, groupLen) {
+    if (encodedSymbol[0] == SPACE){
+        return ' ';
+    }
+
+    let decoded = [];
+    for (let i = 0; i < encodedSymbol.length; i += groupLen){
+        decoded.push(ELEMENTS[encodedSymbol.substr(i, groupLen)]);
+    }
+    return MORSE_TABLE[decoded.join('')];
+}
+
+
 function decode(expr) {
-    // write your solution here
+    let res = [];
+    for (let i = 0; i <= expr.length; i += BLOCK_LEN){
+        res.push(decodySymbol(expr.substr(i, BLOCK_LEN), SUBBLOCK_LEN));
+    }
+    return res.join('');
 }
 
 module.exports = {
